@@ -177,7 +177,7 @@ table(mammals)
 ```
 
 ```{r}
-
+view(mammals)
 ```
 
 ```{r}
