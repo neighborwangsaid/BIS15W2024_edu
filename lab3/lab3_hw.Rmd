@@ -34,13 +34,15 @@ sleep<-msleep
 ```{r}
 dim(sleep)
 ```
-There are 83 rows and 11 columns, from the code "dim(sleep)"
+There are 83 rows and 11 columns, from the code "dim(sleep)".
 
 4. Are there any NAs in the data? How did you determine this? Please show your code.  
 ```{r}
 any(is.na(sleep))
+NA_numbers<-sum(is.na(sleep))
+NA_numbers
 ```
-There are NA values in the data
+There are 136 "NA" values in the data.
 
 5. Show a list of the column names is this data frame.
 ```{r}
@@ -52,27 +54,39 @@ colnames(sleep)
 herbi_count <- table(sleep$vore)["herbi"]
 herbi_count
 ```
+There are 32 herbivores in the data.
 
 7. We are interested in two groups; small and large mammals. Let's define small as less than or equal to 19kg body weight and large as greater than or equal to 200kg body weight. Make two new dataframes (large and small) based on these parameters.
 ```{r}
 
+small<-sleep[sleep$bodywt <= 19,]
+large<-sleep[sleep$bodywt >= 200,]
 ```
 
 8. What is the mean weight for both the small and large mammals?
 ```{r}
-
+smallmean<-mean(small$bodywt)
 ```
 
 ```{r}
-
+largemean<-mean(large$bodywt)
 ```
+The mean of small mammals is about 1.8kg, and the mean of large animals is about 1747kg.
 
 9. Using a similar approach as above, do large or small animals sleep longer on average?  
-
-
+```{r}
+smallsleepmean<-mean(small$sleep_total)
+largesleepmean<-mean(large$sleep_total)
+```
+According to the data, small mammals average sleep time is longer than that of large mammals.
 
 10. Which animal is the sleepiest among the entire dataframe?
-
+```{r}
+maxsleep<-max(sleep$sleep_total)
+sleepiest_animal<- sleep[which.max(sleep$sleep_total),]
+sleepiest_animal
+```
+The little brown bat is the sleepiest mammal among the dataframe.
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences.   
