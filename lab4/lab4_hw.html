@@ -596,9 +596,27 @@ the mean mass, log10 mass, family, genus, and species of owls in the
 database. Which is the smallest owl? What is its common name? Do a
 little bit of searching online to see what you can learn about this
 species and provide a link below</strong></p>
+<pre class="r"><code>owl &lt;- homerange[243:251,]
+owls&lt;-select(owl,&quot;common.name&quot;,&quot;mean.mass.g&quot;,&quot;log10.mass&quot;,&quot;family&quot;,&quot;genus&quot;,&quot;species&quot;)
+owls$common.name[which.min(owls$mean.mass.g)]</code></pre>
+<pre><code>## [1] &quot;Eurasian pygmy owl&quot;</code></pre>
+<p>Using the filter to find “owl” in homerange’s common.name, we could
+know that the owls are in row 243 to 251. We could know that the
+smallest owl is the Eurasian pygmy owl. From Wiki, we could know that it
+is the smallest owl we could find in Europe. and here’s the link: <a href="https://en.wikipedia.org/wiki/Eurasian_pygmy_owl" class="uri">https://en.wikipedia.org/wiki/Eurasian_pygmy_owl</a>.</p>
 <p><strong>10. As measured by the data, which bird species has the
 largest homerange? Show all of your work, please. Look this species up
 online and tell me about it!</strong>.</p>
+<pre class="r"><code>birds&lt;-filter(homerange, taxon==&quot;birds&quot;)
+birds$common.name[which.max(birds$mean.hra.m2)]</code></pre>
+<pre><code>## [1] &quot;caracara&quot;</code></pre>
+<p>From Wikipedia, I learned that caracara is a kind of bird widely
+found in America. It can be found in a variety of habitats, including
+grasslands, savannas, and open areas. It is adaptable birds that can
+thrive in different environments. It has broad wings and a long tail. It
+often have distinctive facial markings, including a bare face and a
+hooked beak. It is scavenger and may also hunt small mammals, reptiles,
+or insects.</p>
 </div>
 <div id="push-your-final-code-to-github" class="section level2">
 <h2>Push your final code to GitHub!</h2>
