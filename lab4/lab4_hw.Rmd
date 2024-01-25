@@ -96,11 +96,19 @@ mean_h<-mean(herbivores$mean.hra.m2, na.rm = TRUE)
 The herbivores have a larger `mean.hra.m2` on average.
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
+Method1:
 ```{r}
 
 owl <- homerange[243:251,]
 owls<-select(owl,"common.name","mean.mass.g","log10.mass","family","genus","species")
 owls$common.name[which.min(owls$mean.mass.g)]
+```
+Method2:
+```{r}
+homerange%>%
+  filter(order=="strigiformes")%>%
+  select("common.name","mean.mass.g","log10.mass","family","genus","species")%>%
+  arrange(mean.mass.g)
 ```
 Using the filter to find "owl" in homerange's common.name, we could know that the owls are in row 243 to 251.
 We could know that the smallest owl is the Eurasian pygmy owl. 
