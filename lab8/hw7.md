@@ -5,7 +5,7 @@ date: "2024-02-08"
 output:
   html_document: 
     theme: spacelab
-    keep_md: yes
+    keep_md: true
 ---
 
 
@@ -267,7 +267,8 @@ sum(is.na(amphibio))
 ```
 ## [1] 170566
 ```
-There are 528196 and 170566 NAs in amniota and amphibio accordingly. Amniota uses -999 as NA.
+There are 528196 and 170566 NAs in amniota and amphibio accordingly. Amniota uses -999 as NA. Amphibio, in the other hand, has a lot of binary data, is full of 0 and 1, and uses NA as missing value directly.
+
 **5. Make any necessary replacements in the data such that all NA's appear as "NA".**   
 
 ```r
