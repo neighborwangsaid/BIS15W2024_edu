@@ -129,7 +129,13 @@ ggplot(data=homerange, mapping=aes(x=log10.mass, y=log10.hra))+
 
 ### Practice
 1. What is the relationship between log10.hra and log10.preymass? What do you notice about how ggplot treats NA's?
-
+```{r}
+homerange%>%
+  filter(!is.na(log10.hra),!is.na(log10.preymass))%>%
+  ggplot(aes(x=log10.hra,y=log10.preymass))+
+  geom_point()+
+  geom_smooth(method=lm, se=T)
+```
 ### Bar Plot: `geom_bar()`
 The simplest type of bar plot counts the number of observations in a categorical variable. In this case, we want to know how many observations are present in the variable `trophic.guild`. Notice that we do not specify a y-axis because it is count by default.  
 
@@ -170,11 +176,27 @@ homerange %>%
 
 ## Practice
 1. Filter the `homerange` data to include `mammals` only.
-
+```{r}
+mammals<-filter(homerange, taxon=="mammals")
+```
 2. Are there more herbivores or carnivores in mammals? Make a bar plot that shows their relative numbers.
-
+```{r}
+mammals %>% 
+  ggplot(aes(x=trophic.guild)) + 
+  geom_bar()
+```
 3. Make a bar plot that shows the masses of the top 10 smallest mammals.
+```{r}
+arranged<-mammals%>%
+  arrange(mean.mass.g)%>%
+  select(common.name, log10.mass) %>% 
+  filter(row_number()<=10)
+```
 
+```{r}
+  ggplot(arranged, aes(x=common.name, y=log10.mass))+
+  geom_col()
+```
 ## That's it! Let's take a break and then move on to part 2!  
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)

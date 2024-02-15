@@ -33,8 +33,9 @@ Now that you have been introduced to `ggplot`, let's practice a few more plot ty
 
 Let's review using the `penguins` data. First, get an idea of the structure: Are the data tidy? Are there NA's? Are the variables discrete, categorical, or continuous?
 ```{r}
-penguins
+view(penguins)
 ```
+It is not tidy. There are NAs. Species, Sex, and Island are nominal variables, while the others are continous variables.
 
 In a previous lab, we asked how many penguins were measured on each island.
 ```{r}
@@ -52,9 +53,18 @@ penguins %>%
 
 ## Practice
 1. What if we wanted a plot that showed the number of measured penguins for each species?
-
+```{r}
+penguins %>% 
+  count(species) %>% 
+  ggplot(aes(x=species, y=n))+
+  geom_col()
+```
 2. How about average bill length by sex?
-
+```{r}
+penguins %>% 
+  ggplot(aes(x=sex, y=bill_length_mm))+
+  geom_col()
+```
 ## Box Plots
 For the next series of examples, we will use the `homerange` data.  **Database of vertebrate home range sizes.**   
 
@@ -84,11 +94,35 @@ homerange %>%
 
 ## Practice
 1. There are more herbivores than carnivores in the homerange data, but how do their masses compare? Make a summary and boxplot that compares their masses. Use `log10.mass`.
+```{r}
+homerange %>% 
+  group_by(trophic.guild) %>% 
+  summarize(min_log10.mass=min(log10.mass),
+            max_log10.mass=max(log10.mass),
+            median_log10.mass=median(log10.mass))
+```
 
+```{r}
+homerange%>%
+  ggplot(aes(x=trophic.guild, y=log10.mass))+
+  geom_boxplot()
+```
 2. Have a closer look at carnivorous mammals. Summarize the range of log10.mass by family.
-
+```{r}
+homerange%>%
+  filter(trophic.guild=="carnivore",taxon=="mammals")%>%
+  group_by(family)%>%
+  summarise(min=min(log10.mass),
+            max=max(log10.mass),
+            median=median(log10.mass))
+```
 3. Now use a boxplot to visualize the range of log10.mass by family of mammalian carnivore.
-
+```{r}
+homerange%>%
+  filter(trophic.guild=="carnivore",taxon=="mammals")%>%
+  ggplot(aes(x=family,y=log10.mass))+
+  geom_boxplot()
+```
 ## Wrap-up  
 Please review the learning goals and be sure to use the code here as a reference when completing the homework.  
 -->[Home](https://jmledford3115.github.io/datascibiol/)
