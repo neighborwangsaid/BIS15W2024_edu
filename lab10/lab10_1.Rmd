@@ -190,10 +190,7 @@ mammals %>%
 arranged<-mammals%>%
   arrange(mean.mass.g)%>%
   select(common.name, log10.mass) %>% 
-  filter(row_number()<=10)
-```
-
-```{r}
+  filter(row_number()<=10)%>%
   ggplot(arranged, aes(x=common.name, y=log10.mass))+
   geom_col()
 ```
