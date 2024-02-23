@@ -1,0 +1,223 @@
+---
+title: "Cheatsheet"
+author: "Eric Du"
+date: "2024-02-23"
+output: html_document
+---
+
+```{r}
+
+```
+
+```{r}
+glimpse()
+dim()
+str()
+names()
+
+anyNA()
+is.na()
+sum(is.na())
+miss_var_summary()#needs naniar
+
+tabyl()#needs janitor
+
+distinct()
+nrow(distinct(fisheries,country))
+
+library(here)
+
+options(scipen=999)
+```
+
+#readcsv
+```{r}
+superhero_info <- read_csv("data/heroes_information.csv", na = c("", "-99", "-"))
+superhero_info<-clean_names(superhero_info)
+amphibio<-read_csv("data/amphibio.csv")%>%clean_names()
+```
+
+```{r}
+fisheries$country<-factor(fisheries$country) #or as.factor
+city%in% c("Davis" , "Malibu")
+
+homerange%>%
+  mutate(mass_category=case_when(log10.mass<=1.75~"small",
+                                 log10.mass>1.75&log10.mass<2.75~"medium",
+                                 log10.mass>2.75~"large"))
+```
+
+pivot
+```{r}
+sydneybeaches_long%>%
+  pivot_wider(names_from = date,
+              values_from = enterococci_cfu_100ml)
+
+sydneybeaches_wide%>%
+  pivot_longer(-site,
+               names_to = "date",
+               values_to = "enterococci_cfu_100ml",
+               values_drop_na = T)
+
+sydneybeaches_long%>%
+  separate(date, into = c("day","month","year"),sep = "/")
+```
+
+visualize
+```{r}
+
+ggplot(data=iris, #specify the data
+       mapping=aes(x=Species, y=Petal.Length)) #map the aesthetics
+
+
+#barchart
+top10cities%>%
+  ggplot(aes(x=city,y=n))+
+  geom_col() # or geom_bar(stat = "identity")
+
+total<-nrow(deserts)
+deserts%>%
+  count(taxa)%>%
+  ggplot(aes(x=taxa,y=n/total))+
+  geom_col()
+
+p <- homerange %>% 
+  ggplot(aes(x=taxon, fill=trophic.guild))+
+  geom_bar(na.rm=T, position="dodge")
+
+#scatter plot
+geom_point()+geom_smooth(method = "lm",se=FALSE)
+
+deserts%>%
+  filter(!is.na(weight),!is.na(hindfoot_length))%>%
+  ggplot(aes(x=weight,y=hindfoot_length))+
+  geom_point()
+
+#table
+prop_taxa<-prop.table(table(deserts$taxa))
+
+#adjust titles
+deserts%>%
+  ggplot(aes(x=taxa,fill=plot_type))+
+  geom_bar(position = "dodge")+
+  scale_y_log10()+
+  labs(title = "Taxa vs. log10(Counts)",
+       y="log10(Counts)")+
+  theme(plot.title = element_text(size = rel(1.5),hjust = 0.5))
+
+#boxplot
+geom_boxplot()
+
+#lines
+deserts%>%
+  filter(species_id=="DM"|species_id=="DS")%>%
+  mutate(year=as.factor(year))%>%
+  group_by(year,species_id)%>%
+  summarise(n=n(),.groups = "keep")%>%
+  ggplot(aes(x=year, y=n,group=species_id, color=species_id))+
+  geom_line()+
+  geom_point(shape=3)+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  labs(title = "number changes over year")
+
+#histogram
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_histogram(bins = 20)+ #we can adjust the number of bins with the bins argument
+
+#density
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_density(fill="deepskyblue4", alpha  =0.4, color = "black")+ #alpha is the transparency
+
+#color
+homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_histogram(color = "blue", fill = "tomato", bins=10)+
+  labs(title = "Distribution of Body Mass")
+
+#linedraw
+p + theme_linedraw()+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+#ligand
+p+theme_linedraw()+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+
+#ggthemes
+library(ggthemes)
+ls("package:ggthemes")[grepl("theme_", ls("package:ggthemes"))]
+
+p + 
+  theme_fivethirtyeight()+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+q + 
+  theme_economist()
+
+#RColorBrewer
+library(RColorBrewer)
+(http://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3)
+
+display.brewer.pal(3,"Blues") #sequential palette
+
+#+`scale_colour_brewer()` is for points  
+#+`scale_fill_brewer()` is for fills
+?RColorBrewer
+  
+  p+scale_fill_brewer(palette = "Paired")+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+  
+#paleteer
+  (https://cran.r-project.org/web/packages/ggsci/vignettes/ggsci.html)
+  
+colors <- paletteer::palettes_d_names
+my_palette <- paletteer_d("ggsci::nrc_npg")
+barplot(rep(1,6), axes=FALSE, col=my_palette) #show colors
+
+p+scale_fill_manual(values=my_palette)+
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL,
+       y= "n",
+       fill= "Trophic Guild")
+
+#facet
+
+#facet_wrap
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_wrap(~trophic.guild, ncol=2)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+#facet_grid
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~.)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_grid(trophic.guild~thermoregulation)+
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
