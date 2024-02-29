@@ -32,26 +32,92 @@ In these data, the authors used `NULL` to represent missing values. I am correct
 ```{r message=FALSE, warning=FALSE}
 wolves <- read.csv("data/NPS_wolfmortalitydata.csv", na = c("NULL")) %>% clean_names()
 ```
+<pre>
 
+
+</pre>
 ## Questions
 Problem 1. (1 point) Let's start with some data exploration. What are the variable (column) names?  
+<pre>
 
+
+
+
+
+</pre>
 Problem 2. (1 point) Use the function of your choice to summarize the data and get an idea of its structure.  
+<pre>
 
+
+
+
+
+</pre>
 Problem 3. (3 points) Which parks/ reserves are represented in the data? Don't just use the abstract, pull this information from the data.  
+<pre>
 
+
+
+
+
+</pre>
 Problem 4. (4 points) Which park has the largest number of wolf packs?
+<pre>
 
-Problem 5. (4 points) Which park has the highest total number of human-caused mortalities `mort_all`?
 
+
+
+
+</pre>
+Problem 5. (4 points) Which park has the highest total number of human-caused mortalities?
+<pre>
+
+
+
+
+
+</pre>
 The wolves in [Yellowstone National Park](https://www.nps.gov/yell/learn/nature/wolf-restoration.htm) are an incredible conservation success story. Let's focus our attention on this park.  
 
 Problem 6. (2 points) Create a new object "ynp" that only includes the data from Yellowstone National Park.  
+<pre>
 
+
+
+
+
+</pre>
 Problem 7. (3 points) Among the Yellowstone wolf packs, the [Druid Peak Pack](https://www.pbs.org/wnet/nature/in-the-valley-of-the-wolves-the-druid-wolf-pack-story/209/) is one of most famous. What was the average pack size of this pack for the years represented in the data?
+<pre>
 
+
+
+
+
+
+
+</pre>
 Problem 8. (4 points) Pack dynamics can be hard to predict- even for strong packs like the Druid Peak pack. At which year did the Druid Peak pack have the largest pack size? What do you think happened in 2010?
+<pre>
 
+
+
+
+
+</pre>
 Problem 9. (5 points) Among the YNP wolf packs, which one has had the highest overall persistence `persisty1` for the years represented in the data? Look this pack up online and tell me what is unique about its behavior- specifically, what prey animals does this pack specialize on?  
+<pre>
 
+
+
+
+
+</pre>
 Problem 10. (3 points) Perform one analysis or exploration of your choice on the `wolves` data. Your answer needs to include at least two lines of code and not be a summary function.  
+<pre>
+
+
+
+
+
+</pre>
