@@ -58,12 +58,14 @@ map1 <- get_stadiamap(bbox1, maptype = "stamen_terrain", zoom=3)
 ```{r}
 ggmap(map1)
 ```
+
 4. Build a final map that overlays the recorded observations of grizzly bears in Alaska.  
 ```{r}
 ggmap(map1) + 
   geom_point(data = grizzly, aes(longitude, latitude), size=0.4) +
   labs(x= "Longitude", y= "Latitude", title="Spider Locations")
 ```
+
 Let's switch to the wolves data. Brandell, Ellen E (2021), Serological dataset and R code for: Patterns and processes of pathogen exposure in gray wolves across North America, Dryad, [Dataset](https://doi.org/10.5061/dryad.5hqbzkh51).  
 
 5. Load the data and evaluate its structure.  
@@ -99,11 +101,13 @@ ggmap(map2) +
   geom_point(USwolves, mapping=aes(x=long, y=lat), size=2)+
   labs(x = "Longitude", y = "Latitude", title = "Wolves in the Lower 48")
 ```
+
 10. Use the map from #9 above, but add some aesthetics. Try to `fill` and `color` by population.  
 ```{r}
 ggmap(map2) + 
   geom_point(data = USwolves, aes(long, lat, color=pop), size=2) +
   labs(x= "Longitude", y= "Latitude", title="Wolves in US Mainland")
 ```
+
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
