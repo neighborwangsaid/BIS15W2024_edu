@@ -96,6 +96,12 @@ deserts%>%
 #table
 prop_taxa<-prop.table(table(deserts$taxa))
 
+sharks %>% 
+  tabyl(county, injury) %>% 
+  adorn_totals("col") %>% 
+  arrange(desc(fatal)) %>% 
+  as_tibble()
+
 #adjust titles
 deserts%>%
   ggplot(aes(x=taxa,fill=plot_type))+
@@ -103,7 +109,8 @@ deserts%>%
   scale_y_log10()+
   labs(title = "Taxa vs. log10(Counts)",
        y="log10(Counts)")+
-  theme(plot.title = element_text(size = rel(1.5),hjust = 0.5))
+  theme(plot.title = element_text(size = rel(1.5),hjust = 0.5, face="bold"))+
+  geom_text(aes(label = n), vjust = -0.2, size = 3, color = "black")
 
 #boxplot
 geom_boxplot()
@@ -117,7 +124,8 @@ deserts%>%
   ggplot(aes(x=year, y=n,group=species_id, color=species_id))+
   geom_line()+
   geom_point(shape=3)+
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+  theme(strip.text = element_text(size=10),
+        axis.text.x = element_text(size=8, angle = 60, hjust = 1))+
   labs(title = "number changes over year")
 
 #histogram
@@ -135,6 +143,17 @@ homerange %>%
   ggplot(aes(x = log10.mass)) +
   geom_histogram(color = "blue", fill = "tomato", bins=10)+
   labs(title = "Distribution of Body Mass")
+
+sharks %>% 
+  filter(species=="White") %>% 
+  ggplot(aes(x=injury))+
+  geom_bar(fill = "#0099f9", alpha=0.8)+
+  labs(title="Incidents Involving Great White Sharks", 
+       x="Injury", 
+       y="n")+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1),
+        plot.title = element_text(size = 14, face="bold"))
+
 
 #linedraw
 p + theme_linedraw()+
