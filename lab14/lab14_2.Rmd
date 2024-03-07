@@ -318,6 +318,7 @@ wolves %>%
   geom_bar()+
   facet_wrap(~pop)
 ```
+
 ```{r, eval=F, echo=T}
 ui <- dashboardPage(
   dashboardHeader(title = "Sex Composition by Wolf Pop."),
