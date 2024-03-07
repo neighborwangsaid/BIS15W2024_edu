@@ -1,0 +1,117 @@
+---
+title: "BIS15L_AI_hmwk"
+author: "Eric Du"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Instructions
+This homework is a bit less traditional this week. There are some errors in the code below. In addition add notes and titles to the code chunks that explains what the code chunck does. Use AI tools, notes from class, or any other resources to help fix the errors. Feel free to edit any plots to your preference. Don't forget to answer the two questions at the bottom. Upon completion, you should not have to '#' out any of the code chunks.
+
+Push your final work to your repository. Your final lab report should be organized, clean, and run free from errors. Remember, you must remove the `#` for the included code chunks to run. Be sure to add your name to the author header above.   
+
+Again make sure to use the formatting conventions of RMarkdown to make your report neat and clean!  
+
+
+```{r}
+library(tidyverse)
+library(janitor)
+library(dplyr)
+```
+
+
+1.
+```{r}
+blood_count <- read_csv("data/blood_count_dataset.csv") #file name was wrong
+```
+
+2. 
+```{r}
+glimpse(blood_count) #it should be glimpse, not glmpse
+
+```
+
+3. 
+```{r}
+blood_count %>% 
+  group_by(Gender) %>%  #should captalize gender and red_blood_cells
+  summarize(min=min(Red_Blood_Cells), #missing comma
+            mean=mean(Red_Blood_Cells), #spelling error of "maen"
+            max=max(Red_Blood_Cells)) #missing ")"
+```
+
+
+4. 
+```{r}
+options(scipen = 999, digits = 2)
+
+blood_count %>% 
+  filter(Gender == "Male") %>% #should use == instead of =, also it should be Male instead of male
+  select(3:9) %>% #should use () instead of []
+  colMeans(na.rm = TRUE) 
+```
+
+
+
+5. 
+```{r}
+blood_count %>% #spelling blood wrong
+  filter(Gender == "Female") %>% #it should be %>%, not "/>%", also it should be == instead of =
+  select(3:9)%>%
+  colMeans(na.rm = T)
+```
+
+
+6. 
+```{r}
+
+blood_count %>%
+  pivot_longer(cols = 3:9, names_to = "Test", values_to = "Values") %>% 
+#should not use square brackets, should've use pivot_longer instead of wider
+  ggplot(aes(x = Gender, y = Values, fill = Gender)) +
+  geom_boxplot() +
+  facet_wrap(~ Test, scales = "free") + #missing + , should be facet_wrap instead of facet
+  labs(title = "Boxplot of Blood Count Tests",
+       x = "Test",
+       y = "Values")
+
+```
+
+7. 
+```{r}
+grouped_bc <- blood_count %>%
+  mutate(Age_Group = case_when(    #should be mutate instead of change
+    Age >= 20 & Age <= 29 ~ "20s",
+    Age >= 30 & Age <= 39 ~ "30s",
+    Age >= 40 & Age <= 49 ~ "40s",
+    Age >= 50 & Age <= 59 ~ "50s",
+    Age >= 60 & Age <= 70 ~ "60s")) # there were only 4 people in 70s, so I combined it with 60s
+
+head(grouped_bc)
+
+```
+
+8. 
+```{r}
+grouped_bc %>% #should use grouped_bc since need Age_group
+  pivot_longer(cols = 3:9, names_to = "Test", values_to = "Values") %>%
+  ggplot(aes(x = Age_Group, y = Values, fill = Age_Group)) + #should be aes, not ase, should captalize "values"
+  geom_boxplot() +
+  facet_wrap( ~Test, scales = "free") +  # Facet by the "Test" variable, should be "~Test"
+  labs(title = "Boxplot of Blood Count Tests by Age Group",
+       x = "Age Group",
+       y = "Values")
+
+```
+9. What are two drawbacks and two benefits of AI?
+AI can automate repetitive coding tasks and improve efficency. However, it may contain biased issues and may cause overreliance.
+
+10. Do you think you will use AI for coding in the future? Why or why not?
+Yes I would use AI to help me coding, it could help me check my bugs and remind me the coding formats.
+
+## Push your final code to GitHub!
+Please be sure that you check the `keep md` file in the knit preferences. 
